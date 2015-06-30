@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"
+            type="text/javascript"></script>
+    <script src="labeldirective.js" type="text/javascript">
+    </script>
+    <script src="http://localhost:1337/vorlon.js"></script>
+    <script>
+
+    angular.module("vorlontest", ["vorlontestlabel"])
+    .controller("vorlontest", ["$scope", "$http",
+        function ($scope, $http) {
+            $scope.name = "Hello World";
+            $scope.testobject = {
+                name: "test object",
+                age: 34
+            };
+
+            $scope.getservices = function () {
+                $http.get("services.js").success(function (data) {
+                    $scope.svclist = data;
+                })
+            }
+        }
+    ])
+
+    </script>
+
+</head>
+<body ng-app="vorlontest" ng-controller="vorlontest">
+    <div>
+        <button class="button small" ng-click="getservices()">Get Services</button>
+    </div>
+    <div>
+        <div ng-cloak ng-repeat="svc in svclist">
+            <div>Component Label Below</div>
+            <div><b><labeltest label="{{svc.nickname}}"></labeltest></b></div>
+        </div>
+    </div>
+</body>
+</html>
